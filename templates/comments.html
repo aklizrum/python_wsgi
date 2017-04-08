@@ -1,0 +1,33 @@
+<script type="text/javascript" src="../scripts/ajax.js"></script>
+<h1>Форма отправки</h1>
+<form action="" method="POST">
+    <label for="second_name">Фамиля</label><br/>
+    <input type="text" name="second_name" id="second_name" value="" required/><br/>
+
+    <label for="first_name">Имя</label><br/>
+    <input type="text" name="first_name" id="first_name" value="" required/><br/>
+
+    <label for="third_name">Отчетство</label><br/>
+    <input type="text" name="third_name" id="third_name" value=""/><br/>
+
+    <label for="region">Регион</label><br/>
+    <select id="region" onchange="getCities()">
+    </select><br/>
+
+    <label for="city">Город</label><br/>
+    <select name="city" id="city">
+    </select>
+    <br/>
+
+    <label for="contact_phone">Контактный телефон</label><br/>
+    <input type="tel" name="contact_phone" id="contact_phone" placeholder="7(999)11111111" pattern="[789]\([0-9]{3}\)[0-9]{7}" value=""/><br/>
+
+
+    <label for="email">E-mail</label><br/>
+    <input type="email" name="email" id="email" value=""/><br/>
+
+    <label for="comment">Комментарий</label><br/>
+    <textarea id="comment" name="comment"></textarea><br/>
+
+    <input type="submit" value="Отправить"/>
+</form>
