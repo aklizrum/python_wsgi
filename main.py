@@ -55,11 +55,8 @@ def delete_comment(environ, start_response):
 def view(environ, start_response):
     template = open('{}/{}'.format(DIR_PATH, 'templates/view.html'), 'r')
     body = template.read()
-    comments = db.get_comments()
-
     rows = ''
-
-    for comment in comments:
+    for comment in db.get_comments():
         rows += '''
                 <tr>
                     <td>{}</td>
