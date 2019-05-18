@@ -11,6 +11,13 @@ DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 db = Database()
 
 
+def index(environ, start_response):
+    with open('{}/{}'.format(DIR_PATH, 'templates/index.html'), 'r') as f:
+        body = f.read()
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
+    return [body.encode('utf-8')]
+
+
 def not_found(environ, start_response):
     start_response('404 NOT FOUND', [('Content-Type', 'text/plain')])
     return [b'Not Found']
@@ -185,6 +192,7 @@ urls = [
     (r'.*\.js$', scripts),
     (r'get_regions/?$', get_regions),
     (r'get_cities/?$', get_cities),
+    (r'', index),
 ]
 
 application = wsgi_app
