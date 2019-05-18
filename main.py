@@ -39,9 +39,7 @@ def comments(environ, start_response):
     template = open('{}/{}'.format(DIR_PATH, 'templates/comments.html'), 'r')
     body = template.read()
 
-    status = '200 OK'
-    headers = [('Content-Type', 'text/html; charset=utf-8')]
-    start_response(status, headers)
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
     return [body.encode('utf-8')]
 
@@ -51,10 +49,9 @@ def delete_comment(environ, start_response):
     comment_id = escape(url_args[0])
     db.delete_comment(comment_id)
 
-    status = '302 FOUND'
-    headers = [('Location', 'http://{}/view'.format(environ.get('HTTP_HOST')))]
-
-    start_response(status, headers)
+    start_response(
+        '302 FOUND',
+        [('Location', 'http://{}/view'.format(environ.get('HTTP_HOST')))])
 
     return [b'Deleted']
 
@@ -73,9 +70,7 @@ def view(environ, start_response):
 
     body = body.replace('%rows%', rows)
 
-    status = '200 OK'
-    headers = [('Content-Type', 'text/html; charset=utf-8')]
-    start_response(status, headers)
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
     return [body.encode('utf-8')]
 
@@ -97,9 +92,7 @@ def stat(environ, start_response):
 
     body = body.replace('%rows%', rows)
 
-    status = '200 OK'
-    headers = [('Content-Type', 'text/html; charset=utf-8')]
-    start_response(status, headers)
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
     return [body.encode('utf-8')]
 
@@ -124,9 +117,7 @@ def stat_city(environ, start_response):
 
     body = body.replace('%rows%', rows)
 
-    status = '200 OK'
-    headers = [('Content-Type', 'text/html; charset=utf-8')]
-    start_response(status, headers)
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
     return [body.encode('utf-8')]
 
@@ -136,9 +127,7 @@ def scripts(environ, start_response):
     script = open('{}/{}'.format(DIR_PATH, script_name), 'r')
     body = script.read()
 
-    status = '200 OK'
-    headers = [('Content-type', 'text/plain')]
-    start_response(status, headers)
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
     return [body.encode('utf-8')]
 
@@ -146,9 +135,7 @@ def scripts(environ, start_response):
 def get_regions(environ, start_response):
     body = json.dumps(db.get_regions())
 
-    status = '200 OK'
-    headers = [('Content-type', 'text/plain')]
-    start_response(status, headers)
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
     return [body.encode('utf-8')]
 
 
@@ -164,19 +151,16 @@ def get_cities(environ, start_response):
     region_id = post_data['region_id'][0]
     body = json.dumps(db.get_cities_by_region_id(region_id))
 
-    status = '200 OK'
-    headers = [('Content-type', 'text/plain')]
-    start_response(status, headers)
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
     return [body.encode('utf-8')]
 
 
 def wsgi_app(environ, start_response):
-    path = environ.get('PATH_INFO', '').lstrip('/')
-
+    path = environ.get('REQUEST_URI', '').lstrip('/')
     for regex, callback in urls:
         match = re.search(regex, path)
-        if match is not None:
+        if match:
             environ['url_args'] = match.groups()
             environ['filename'] = path
             return callback(environ, start_response)
