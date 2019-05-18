@@ -36,8 +36,8 @@ def comments(environ, start_response):
     if environ.get('REQUEST_METHOD') == 'POST':
         db.save_comment(post_data)
 
-    template = open('{}/{}'.format(DIR_PATH, 'templates/comments.html'), 'r')
-    body = template.read()
+    with open('{}/{}'.format(DIR_PATH, 'templates/comments.html'), 'r') as f:
+        body = f.read()
 
     start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
@@ -57,8 +57,8 @@ def delete_comment(environ, start_response):
 
 
 def view(environ, start_response):
-    template = open('{}/{}'.format(DIR_PATH, 'templates/view.html'), 'r')
-    body = template.read()
+    with open('{}/{}'.format(DIR_PATH, 'templates/view.html'), 'r') as f:
+        body = f.read()
     rows = ''
     for comment in db.get_comments():
         rows += '''
@@ -76,8 +76,8 @@ def view(environ, start_response):
 
 
 def stat(environ, start_response):
-    template = open('{}/{}'.format(DIR_PATH, 'templates/stat.html'), 'r')
-    body = template.read()
+    with open('{}/{}'.format(DIR_PATH, 'templates/stat.html'), 'r') as f:
+        body = f.read()
     regions = db.get_more_posted_region(COMMENTS_MINIMAL_COUNT)
 
     rows = ''
@@ -101,8 +101,8 @@ def stat_city(environ, start_response):
     url_args = environ['url_args']
     region_id = escape(url_args[0])
 
-    template = open('{}/{}'.format(DIR_PATH, 'templates/stat_city.html'), 'r')
-    body = template.read()
+    with open('{}/{}'.format(DIR_PATH, 'templates/stat_city.html'), 'r') as f:
+        body = f.read()
     cities = db.get_city_by_region_id(region_id)
 
     rows = ''
@@ -124,8 +124,8 @@ def stat_city(environ, start_response):
 
 def scripts(environ, start_response):
     script_name = environ['filename']
-    script = open('{}/{}'.format(DIR_PATH, script_name), 'r')
-    body = script.read()
+    with open('{}/{}'.format(DIR_PATH, script_name), 'r') as f:
+        body = f.read()
 
     start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
