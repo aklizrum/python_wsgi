@@ -156,7 +156,7 @@ def get_cities(environ, start_response):
     return [body.encode('utf-8')]
 
 
-def wsgi_app(environ, start_response):
+def application(environ, start_response):
     path = environ.get('REQUEST_URI', '').lstrip('/')
     for regex, callback in urls:
         match = re.search(regex, path)
@@ -178,5 +178,3 @@ urls = [
     (r'get_cities/?$', get_cities),
     (r'', index),
 ]
-
-application = wsgi_app
