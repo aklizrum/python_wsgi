@@ -5,5 +5,12 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: always
+    working_dir: /var/www
+    command: uwsgi --ini uwsgi.ini
+    volumes:
+      - .:/var/www
     ports:
       - '9000:9000'
